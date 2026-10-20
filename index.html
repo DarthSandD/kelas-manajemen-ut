@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Kelas Manajemen UT: Belajar Semester 1 sampai 8</title>
+<meta name="description" content="Ruang belajar pribadi Tri Adi Setiawan untuk seluruh perjalanan S1 Manajemen Universitas Terbuka: ulas ulang semester lalu, dalami semester berjalan, dan intip semester berikutnya.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="#/" aria-label="Kelas Manajemen UT, kembali ke peta semester">
+    <span class="brand-mark" aria-hidden="true">K</span>
+    <span class="brand-name">Kelas Manajemen <em>UT</em></span>
+  </a>
+  <div class="topbar-actions">
+    <span class="topbar-student">Tri Adi Setiawan</span>
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti mode gelap atau terang">
+      <span class="theme-toggle-icon" aria-hidden="true">&#9681;</span>
+      <span class="theme-toggle-label">Gelap</span>
+    </button>
+  </div>
+</header>
+
+<main id="app">
+  <!-- Beranda / peta semester -->
+  <section id="viewMap" class="view">
+    <div class="hero">
+      <p class="hero-eyebrow reveal">Universitas Terbuka · Fakultas Ekonomi dan Bisnis · Program Studi Manajemen (S1)</p>
+      <h1 class="hero-title reveal">Kelas<br>Manajemen <span class="hero-title-accent">UT</span></h1>
+      <p class="hero-tagline reveal">Satu ruang belajar untuk seluruh perjalanan sarjanamu. Ulas ulang semester yang sudah lewat, dalami yang sedang berjalan, dan intip yang akan datang, semuanya dengan bahasamu sendiri.</p>
+
+      <div class="hero-stats reveal" role="list" aria-label="Ringkasan perjalanan studi">
+        <div class="stat" role="listitem">
+          <span class="stat-value">Semester 4 <span class="stat-of">dari 8</span></span>
+          <span class="stat-label">Posisi kamu sekarang</span>
+        </div>
+        <div class="stat" role="listitem">
+          <span class="stat-value">144 <span class="stat-of">sks</span></span>
+          <span class="stat-label">Total beban kurikulum</span>
+        </div>
+        <div class="stat" role="listitem">
+          <span class="stat-value">6 <span class="stat-of">kelas aktif</span></span>
+          <span class="stat-label">Materi lengkap semester ini</span>
+        </div>
+      </div>
+
+      <div class="hero-progress reveal" aria-label="Kemajuan studi: tiga semester tuntas, semester keempat berjalan">
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-marks" aria-hidden="true">
+          <span>S1</span><span>S2</span><span>S3</span><span class="mark-now">S4</span><span>S5</span><span>S6</span><span>S7</span><span>S8</span>
+        </div>
+        <p class="progress-note">Tiga semester sudah kamu lewati. Semester 4 sedang berjalan, dan peta di bawah ini menunjukkan semua yang menunggumu sampai wisuda.</p>
+      </div>
+
+      <div class="hero-search reveal">
+        <label class="search-label" for="searchInput">Cari mata kuliah</label>
+        <div class="search-box">
+          <span class="search-icon" aria-hidden="true">&#9906;</span>
+          <input id="searchInput" type="search" inputmode="search" autocomplete="off" placeholder="Ketik nama atau kode, misalnya: keuangan, EMBS4210, riset operasi">
+        </div>
+        <p class="search-hint" id="searchHint">51 mata kuliah dari Semester 1 sampai 8. Klik kartu Semester 4 untuk membuka pelajaran lengkapnya.</p>
+      </div>
+    </div>
+
+    <div id="semesterList" class="semester-list"></div>
+
+    <div id="noResult" class="no-result" hidden>
+      <p class="no-result-title">Tidak ada yang cocok.</p>
+      <p>Coba kata kunci lain, misalnya kode mata kuliah seperti EKMA4414 atau kata umum seperti pemasaran.</p>
+      <button type="button" class="btn-ghost" id="resetSearch">Tampilkan semua semester</button>
+    </div>
+  </section>
+
+  <!-- Halaman pelajaran -->
+  <section id="viewLesson" class="view" hidden>
+    <div id="lessonContent"></div>
+  </section>
+</main>
+
+<footer class="footer">
+  <p class="footer-title">Kelas Manajemen UT</p>
+  <p>Ruang belajar pribadi untuk Tri Adi Setiawan, mahasiswa S1 Manajemen Universitas Terbuka, UPBJJ UT Serang. Ringkasan disusun ulang dengan bahasa sendiri dari Buku Materi Pokok dan Tinjauan Mata Kuliah resmi UT. Untuk membaca buku lengkapnya, buka Ruang Baca Virtual Perpustakaan UT.</p>
+  <p class="footer-meta">Kurikulum: Katalog FEB UT 2024/2025 · 144 sks · Semester berjalan: 2026.2 Ganjil</p>
+</footer>
+
+<div id="previewModal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card">
+    <button type="button" class="modal-close" data-close aria-label="Tutup panel pratinjau">&times;</button>
+    <p class="modal-eyebrow" id="modalEyebrow"></p>
+    <h2 class="modal-title" id="modalTitle"></h2>
+    <p class="modal-meta" id="modalMeta"></p>
+    <p class="modal-body" id="modalBody"></p>
+    <p class="modal-note">Materi ringkas untuk mata kuliah ini segera hadir di Kelas Manajemen UT. Sementara itu, kamu bisa membaca Buku Materi Pokok resminya di Ruang Baca Virtual Perpustakaan UT.</p>
+    <button type="button" class="btn-primary" data-close>Kembali ke peta semester</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
