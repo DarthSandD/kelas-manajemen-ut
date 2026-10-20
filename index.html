@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="light">
+<html lang="id" data-theme="light" data-style="">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Kelas Manajemen UT: Belajar Semester 1 sampai 8</title>
-<meta name="description" content="Ruang belajar pribadi Tri Adi Setiawan untuk seluruh perjalanan S1 Manajemen Universitas Terbuka: ulas ulang semester lalu, dalami semester berjalan, dan intip semester berikutnya.">
+<meta name="description" content="Ruang belajar pribadi Tri Adi Setiawan untuk seluruh perjalanan S1 Manajemen Universitas Terbuka. Pilih gaya belajarmu, lalu setiap mata kuliah dari Semester 1 sampai 8 tersusun mengikuti caramu belajar.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -19,6 +19,10 @@
   </a>
   <div class="topbar-actions">
     <span class="topbar-student">Tri Adi Setiawan</span>
+    <button id="styleChip" class="style-chip" type="button" aria-haspopup="dialog" aria-label="Ganti gaya belajar">
+      <span class="style-chip-dot" aria-hidden="true"></span>
+      <span class="style-chip-label">Gaya: pilih dulu</span>
+    </button>
     <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti mode gelap atau terang">
       <span class="theme-toggle-icon" aria-hidden="true">&#9681;</span>
       <span class="theme-toggle-label">Gelap</span>
@@ -30,9 +34,10 @@
   <!-- Beranda / peta semester -->
   <section id="viewMap" class="view">
     <div class="hero">
-      <p class="hero-eyebrow reveal">Universitas Terbuka · Fakultas Ekonomi dan Bisnis · Program Studi Manajemen (S1)</p>
+      <p class="hero-eyebrow reveal" id="modeEyebrow">Universitas Terbuka · Fakultas Ekonomi dan Bisnis · Program Studi Manajemen (S1)</p>
       <h1 class="hero-title reveal">Kelas<br>Manajemen <span class="hero-title-accent">UT</span></h1>
       <p class="hero-tagline reveal">Satu ruang belajar untuk seluruh perjalanan sarjanamu. Ulas ulang semester yang sudah lewat, dalami yang sedang berjalan, dan intip yang akan datang, semuanya dengan bahasamu sendiri.</p>
+      <p class="mode-line reveal" id="modeLine"></p>
 
       <div class="hero-stats reveal" role="list" aria-label="Ringkasan perjalanan studi">
         <div class="stat" role="listitem">
@@ -44,8 +49,8 @@
           <span class="stat-label">Total beban kurikulum</span>
         </div>
         <div class="stat" role="listitem">
-          <span class="stat-value">6 <span class="stat-of">kelas aktif</span></span>
-          <span class="stat-label">Materi lengkap semester ini</span>
+          <span class="stat-value"><span id="statSubjects">0</span> <span class="stat-of">mata kuliah</span></span>
+          <span class="stat-label">Sudah punya halaman belajar lengkap</span>
         </div>
       </div>
 
@@ -63,7 +68,7 @@
           <span class="search-icon" aria-hidden="true">&#9906;</span>
           <input id="searchInput" type="search" inputmode="search" autocomplete="off" placeholder="Ketik nama atau kode, misalnya: keuangan, EMBS4210, riset operasi">
         </div>
-        <p class="search-hint" id="searchHint">51 mata kuliah dari Semester 1 sampai 8. Klik kartu Semester 4 untuk membuka pelajaran lengkapnya.</p>
+        <p class="search-hint" id="searchHint"></p>
       </div>
     </div>
 
@@ -76,9 +81,9 @@
     </div>
   </section>
 
-  <!-- Halaman pelajaran -->
-  <section id="viewLesson" class="view" hidden>
-    <div id="lessonContent"></div>
+  <!-- Halaman mata kuliah -->
+  <section id="viewSubject" class="view" hidden>
+    <div id="subjectContent"></div>
   </section>
 </main>
 
@@ -88,19 +93,19 @@
   <p class="footer-meta">Kurikulum: Katalog FEB UT 2024/2025 · 144 sks · Semester berjalan: 2026.2 Ganjil</p>
 </footer>
 
-<div id="previewModal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal-backdrop" data-close></div>
-  <div class="modal-card">
-    <button type="button" class="modal-close" data-close aria-label="Tutup panel pratinjau">&times;</button>
-    <p class="modal-eyebrow" id="modalEyebrow"></p>
-    <h2 class="modal-title" id="modalTitle"></h2>
-    <p class="modal-meta" id="modalMeta"></p>
-    <p class="modal-body" id="modalBody"></p>
-    <p class="modal-note">Materi ringkas untuk mata kuliah ini segera hadir di Kelas Manajemen UT. Sementara itu, kamu bisa membaca Buku Materi Pokok resminya di Ruang Baca Virtual Perpustakaan UT.</p>
-    <button type="button" class="btn-primary" data-close>Kembali ke peta semester</button>
+<!-- Gerbang gaya belajar -->
+<div id="styleGate" class="gate" hidden role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+  <div class="gate-inner">
+    <button type="button" class="gate-close" id="gateClose" aria-label="Tutup pemilih gaya belajar" hidden>&times;</button>
+    <p class="gate-brand"><span class="brand-mark" aria-hidden="true">K</span> Kelas Manajemen UT</p>
+    <h2 class="gate-title" id="gateTitle">Belajar dengan caramu</h2>
+    <p class="gate-lede">Setiap orang menangkap pelajaran dengan cara berbeda. Pilih satu gaya di bawah ini, dan seluruh situs akan menyusun dirinya mengikuti pilihanmu: urutan materi, tampilan, sampai cara kamu menguji diri. Tidak ada pilihan yang salah.</p>
+    <div class="gate-grid" id="gateGrid"></div>
+    <p class="gate-note">Kamu bisa mengganti gaya kapan saja dari menu atas, chip bertuliskan gaya aktifmu selalu ada di sana.</p>
   </div>
 </div>
 
+<script src="data.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
