@@ -444,40 +444,52 @@ window.KMUT_DATA = {
       "analogi": "Seperti rekam medis perusahaan: setiap transaksi adalah gejala yang dicatat, dan laporan keuangan adalah diagnosis kesehatannya.",
       "topics": [
         {
-          "t": "Pengertian dan peranan akuntansi",
-          "d": "Akuntansi sebagai sistem informasi yang mengubah transaksi menjadi laporan bagi pengambilan keputusan."
+          "t": "Ruang Lingkup Akuntansi",
+          "d": "Modul 1: ruang lingkup akuntansi sebagai dasar seluruh BMP; fondasi sebelum masuk siklus."
         },
         {
-          "t": "Persamaan dasar akuntansi",
-          "d": "Aset sama dengan liabilitas ditambah ekuitas; setiap transaksi menjaga keseimbangan ini."
+          "t": "Siklus Akuntansi",
+          "d": "Modul 2: tahapan siklus akuntansi dari transaksi sampai laporan, lanjutan Modul 1."
         },
         {
-          "t": "Transaksi dan bukti transaksi",
-          "d": "Kejadian ekonomi yang dicatat harus didukung bukti seperti nota, kuitansi, dan faktur."
+          "t": "Neraca Lajur dan Penutupan Pembukuan",
+          "d": "Modul 3: neraca lajur (kertas kerja) dan penutupan pembukuan di akhir periode."
         },
         {
-          "t": "Jurnal umum",
-          "d": "Pencatatan pertama transaksi secara kronologis dengan aturan debit dan kredit."
+          "t": "Laporan Keuangan",
+          "d": "Modul 4: penyusunan laporan keuangan; simpul yang menjadi prasyarat Modul 5, 6, 7, dan 10."
         },
         {
-          "t": "Buku besar dan neraca saldo",
-          "d": "Mengelompokkan catatan jurnal ke akun masing-masing lalu menguji keseimbangannya."
+          "t": "Perusahaan Dagang dan Jurnal Khusus",
+          "d": "Modul 5: akuntansi perusahaan dagang dan penggunaan jurnal khusus. Cabang dari Modul 4."
         },
         {
-          "t": "Jurnal penyesuaian",
-          "d": "Memperbarui akun di akhir periode, misalnya beban yang masih harus dibayar dan pendapatan diterima di muka."
+          "t": "Akuntansi untuk Persekutuan",
+          "d": "Modul 6: akuntansi untuk bentuk usaha persekutuan (firma/kemitraan). Cabang dari Modul 4."
         },
         {
-          "t": "Kertas kerja dan laporan keuangan",
-          "d": "Jalan sistematis menyusun laporan laba rugi, perubahan ekuitas, dan neraca."
+          "t": "Akuntansi untuk Perseroan I",
+          "d": "Modul 7: akuntansi perseroan bagian pertama. Cabang dari Modul 4, prasyarat Modul 8."
         },
         {
-          "t": "Jurnal penutup",
-          "d": "Menutup akun nominal di akhir periode agar periode berikutnya mulai dari nol."
+          "t": "Akuntansi untuk Perseroan II",
+          "d": "Modul 8: lanjutan akuntansi perseroan dari Modul 7."
         },
         {
-          "t": "Akuntansi perusahaan dagang",
-          "d": "Ciri khusus usaha dagang: persediaan barang dagang, harga pokok penjualan, dan diskon."
+          "t": "Akuntansi Utang Jangka Panjang dan Investasi",
+          "d": "Modul 9: akuntansi utang jangka panjang dan investasi; terhubung garis putus-putus dengan Modul 12."
+        },
+        {
+          "t": "Akuntansi Manajemen I (Sistem Akuntansi Biaya Pesanan)",
+          "d": "Modul 10: akuntansi manajemen dengan sistem akuntansi biaya pesanan (job order costing). Cabang dari Modul 4, prasyarat Modul 11."
+        },
+        {
+          "t": "Akuntansi Manajemen II (Sistem Akuntansi Biaya Proses)",
+          "d": "Modul 11: akuntansi manajemen dengan sistem akuntansi biaya proses (process costing), lanjutan Modul 10."
+        },
+        {
+          "t": "Sistem Informasi Akuntansi dan Pengendalian Intern",
+          "d": "Modul 12: sistem informasi akuntansi dan pengendalian intern; modul puncak yang ditopang Modul 5, 6, 8, dan 11."
         }
       ],
       "keys": [
