@@ -14,6 +14,7 @@ const $$ = (sel, ctx) => Array.from((ctx || document).querySelectorAll(sel));
 const SUBJECTS = ((window.KMUT_DATA && window.KMUT_DATA.subjects) || []).slice().sort((a, b) =>
   a.semester - b.semester || (a.kode < b.kode ? -1 : a.kode > b.kode ? 1 : 0));
 const BY_KODE = new Map(SUBJECTS.map((s) => [s.kode, s]));
+const BY_BAHAN = new Map(SUBJECTS.map((s) => [String(s.bahanAjar).toUpperCase(), s.kode]));
 
 /* ---------- Empat gaya belajar ---------- */
 const STYLES = {
@@ -509,7 +510,8 @@ function renderSubject(kode) {
 let mapNoticePending = false;
 function route() {
   const m = (location.hash || "#/").match(/^#\/mapel\/([A-Za-z0-9]+)$/);
-  const kode = m ? m[1].toUpperCase() : null;
+  const rawKode = m ? m[1].toUpperCase() : null;
+  const kode = rawKode && !BY_KODE.has(rawKode) && BY_BAHAN.has(rawKode) ? BY_BAHAN.get(rawKode) : rawKode;
   if (m && !BY_KODE.has(kode)) mapNoticePending = true;
   if (m && BY_KODE.has(kode) && currentStyle) {
     $("#viewMap").hidden = true;
