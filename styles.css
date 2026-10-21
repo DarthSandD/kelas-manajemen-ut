@@ -1041,6 +1041,9 @@ button { font-family: inherit; }
 .footer-title { font-family: var(--font-display); font-weight: 700; font-size: 19px; color: var(--ink); margin: 0 0 8px; }
 .footer p { max-width: 680px; margin: 0 0 8px; line-height: 1.6; }
 .footer-meta { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); }
+.footer-credit { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); }
+.footer-credit a { color: var(--accent); text-decoration: none; }
+.footer-credit a:hover { text-decoration: underline; }
 
 /* ---------- Animasi muncul ---------- */
 .reveal {
