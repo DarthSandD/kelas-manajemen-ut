@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf5ec">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#16120d">
 <title>Kelas Manajemen UT: Belajar Semester 1 sampai 8</title>
 <meta name="description" content="Ruang belajar pribadi Tri Adi Setiawan untuk seluruh perjalanan S1 Manajemen Universitas Terbuka. Pilih gaya belajarmu, lalu setiap mata kuliah dari Semester 1 sampai 8 tersusun mengikuti caramu belajar.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,7 +57,7 @@
       </div>
 
       <div class="hero-progress reveal" aria-label="Kemajuan studi: tiga semester tuntas, semester keempat berjalan">
-        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-track" id="progressTrack" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Kemajuan studi"><div class="progress-fill" id="progressFill"></div></div>
         <div class="progress-marks" aria-hidden="true">
           <span>S1</span><span>S2</span><span>S3</span><span class="mark-now">S4</span><span>S5</span><span>S6</span><span>S7</span><span>S8</span>
         </div>
@@ -68,9 +70,11 @@
           <span class="search-icon" aria-hidden="true">&#9906;</span>
           <input id="searchInput" type="search" inputmode="search" autocomplete="off" placeholder="Ketik nama atau kode, misalnya: keuangan, EMBS4210, riset operasi">
         </div>
-        <p class="search-hint" id="searchHint"></p>
+        <p class="search-hint" id="searchHint" aria-live="polite"></p>
       </div>
     </div>
+
+    <p id="mapNotice" class="map-notice" hidden>Mata kuliah itu tidak ditemukan, ini peta lengkapnya.</p>
 
     <div id="semesterList" class="semester-list"></div>
 
@@ -91,7 +95,6 @@
   <p class="footer-title">Kelas Manajemen UT</p>
   <p>Ruang belajar pribadi untuk Tri Adi Setiawan, mahasiswa S1 Manajemen Universitas Terbuka, UPBJJ UT Serang. Ringkasan disusun ulang dengan bahasa sendiri dari Buku Materi Pokok dan Tinjauan Mata Kuliah resmi UT. Untuk membaca buku lengkapnya, buka Ruang Baca Virtual Perpustakaan UT.</p>
   <p class="footer-meta">Kurikulum: Katalog FEB UT 2024/2025 · 144 sks · Semester berjalan: 2026.2 Ganjil</p>
-  <p class="footer-credit">Made by Darren Labs · Built by Darren Lieu · <a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a></p>
 </footer>
 
 <!-- Gerbang gaya belajar -->

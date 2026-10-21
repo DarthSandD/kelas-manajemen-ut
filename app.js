@@ -102,7 +102,7 @@ function buildGate() {
     </button>`;
   }).join("");
   $$(".gate-card", gateGrid).forEach((card) => {
-    card.addEventListener("click", () => setStyle(card.dataset.style, true));
+    card.addEventListener("click", () => setStyle(card.dataset.style, true, true));
   });
 }
 
@@ -110,27 +110,45 @@ function openGate(closable) {
   gate.hidden = false;
   gateClose.hidden = !closable;
   document.body.classList.add("gate-open");
+  let firstCard = null;
+  let activeCard = null;
   $$(".gate-card", gateGrid).forEach((card) => {
     const active = card.dataset.style === currentStyle;
     card.classList.toggle("is-active", active);
     card.setAttribute("aria-pressed", active ? "true" : "false");
+    if (!firstCard) firstCard = card;
+    if (active) activeCard = card;
   });
+  const focusTarget = activeCard || firstCard;
+  if (focusTarget) focusTarget.focus();
 }
 
 function closeGate() {
   gate.hidden = true;
   document.body.classList.remove("gate-open");
+  const chip = $("#styleChip");
+  if (chip) chip.focus();
 }
 
 gateClose.addEventListener("click", closeGate);
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && !gate.hidden && currentStyle) closeGate();
+  if (gate.hidden) return;
+  if (e.key === "Escape" && currentStyle) { closeGate(); return; }
+  if (e.key === "Tab") {
+    const items = $$(".gate-card", gateGrid);
+    if (!gateClose.hidden) items.push(gateClose);
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
 });
 
-function setStyle(id, closeAfter) {
+function setStyle(id, closeAfter, persist) {
   if (!STYLE_IDS.includes(id)) return;
   currentStyle = id;
-  persistStyle(id);
+  if (persist) persistStyle(id);
   document.documentElement.dataset.style = id;
   const st = STYLES[id];
   $(".style-chip-label").textContent = "Gaya: " + st.name;
@@ -142,8 +160,10 @@ function setStyle(id, closeAfter) {
 
 $("#styleChip").addEventListener("click", () => openGate(true));
 
-/* Tautan dalam: ?gaya=visual dan seterusnya, hanya dipakai bila
-   belum ada pilihan tersimpan. */
+/* Tautan dalam: ?gaya=visual dan seterusnya. Bila ada, gaya dari
+   tautan didahulukan daripada pilihan tersimpan, tetapi tidak ikut
+   disimpan: localStorage hanya berubah lewat pilihan eksplisit
+   pengguna di gerbang gaya. */
 function deepLinkStyle() {
   try {
     const v = new URLSearchParams(location.search).get("gaya");
@@ -169,7 +189,7 @@ function renderMap() {
         <span class="course-code">${s.kode}${s.bahanAjar && s.bahanAjar !== s.kode ? " · BA " + s.bahanAjar : ""}</span>
         <span class="course-name">${s.nama}</span>
         <span class="course-foot">
-          <span>${s.sks} sks</span>
+          <span>${s.sks === 0 ? "tanpa beban sks" : s.sks + " sks"}</span>
           <span class="course-cta">Buka pelajaran &rarr;</span>
         </span>
       </button>`).join("");
@@ -209,15 +229,15 @@ function subjectHeader(s) {
     <a class="back-link" href="#/">&larr; Kembali ke peta semester</a>
     <p class="subject-eyebrow">Semester ${s.semester} · ${st.label} · Mode ${STYLES[currentStyle].name}</p>
     <h1 class="subject-title">${s.nama}</h1>
-    <p class="subject-meta">${s.kode} · ${s.sks} sks · Bahan ajar ${s.bahanAjar} · Sumber: ${sumberLabel(s)}</p>`;
+    <p class="subject-meta">${s.kode} · ${s.sks === 0 ? "tanpa beban sks" : s.sks + " sks"} · Bahan ajar ${s.bahanAjar} · Sumber: ${sumberLabel(s)}</p>`;
 }
 
 function quizHTML(s) {
-  const items = s.quiz.map((q) => `
+  const items = s.quiz.map((q, qi) => `
     <div class="quiz-item">
       <p class="quiz-q">${q.q}</p>
-      <button type="button" class="quiz-btn">Lihat jawaban</button>
-      <p class="quiz-a">${q.a}</p>
+      <button type="button" class="quiz-btn" aria-expanded="false" aria-controls="quiz-a-${qi}">Lihat jawaban</button>
+      <p class="quiz-a" id="quiz-a-${qi}">${q.a}</p>
     </div>`).join("");
   return `<section class="subject-section">
     <h2>Uji Dirimu</h2>
@@ -247,7 +267,7 @@ function topicsFlowHTML(s) {
     </div>${i < s.topics.length - 1 ? `<span class="map-arrow" aria-hidden="true">&rarr;</span>` : ""}`).join("");
   return `<section class="subject-section">
     <h2>Peta Topik</h2>
-    <p>Sembilan modul, satu alur cerita. Ikuti anak panahnya dari kotak pertama sampai terakhir, dan kamu memegang seluruh mata kuliah dalam satu gambar.</p>
+    <p>${s.topics.length} modul, satu alur cerita. Ikuti nomornya dari kotak pertama sampai terakhir, dan kamu memegang seluruh mata kuliah dalam satu gambar.</p>
     <div class="topic-flow">${boxes}</div>
   </section>`;
 }
@@ -261,7 +281,7 @@ function topicsListHTML(s) {
     </li>`).join("");
   return `<section class="subject-section">
     <h2>Urutan Topik</h2>
-    <p>Sembilan modul dalam urutan belajarnya. Setelah mendengar briefing, daftar ini menunjukkan di mana kamu berada dalam cerita besarnya.</p>
+    <p>${s.topics.length} modul dalam urutan belajarnya. Setelah mendengar briefing, daftar ini menunjukkan di mana kamu berada dalam cerita besarnya.</p>
     <ol class="topic-list">${items}</ol>
   </section>`;
 }
@@ -269,7 +289,7 @@ function topicsListHTML(s) {
 function keysCardsHTML(s) {
   const cards = s.keys.map((k) => {
     const p = splitKey(k);
-    return `<div class="key-card"><p class="key-term">${p.term}</p><p class="key-gloss">${p.gloss}</p></div>`;
+    return `<div class="key-card"><p class="key-term">${p.term}</p>${p.gloss ? `<p class="key-gloss">${p.gloss}</p>` : ""}</div>`;
   }).join("");
   return `<section class="subject-section">
     <h2>Lima Kunci</h2>
@@ -281,6 +301,7 @@ function keysCardsHTML(s) {
 function keysListHTML(s) {
   const items = s.keys.map((k) => {
     const p = splitKey(k);
+    if (!p.gloss) return `<li><span class="key-term">${p.term}</span></li>`;
     return `<li><span class="key-term">${p.term}:</span> ${p.gloss}</li>`;
   }).join("");
   return `<section class="subject-section">
@@ -344,6 +365,7 @@ function bindQuiz(root) {
     btn.addEventListener("click", () => {
       const item = btn.closest(".quiz-item");
       const open = item.classList.toggle("open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
       btn.textContent = open ? "Sembunyikan jawaban" : "Lihat jawaban";
     });
   });
@@ -395,7 +417,7 @@ function renderBaca(s) {
   </section>
   <section class="subject-section">
     <h2>Topik demi Topik</h2>
-    <p>Sembilan modul dibaca berurutan, masing-masing dengan penjelasan intinya. Baca pelan-pelan, satu topik sekali duduk.</p>
+    <p>${s.topics.length} modul dibaca berurutan, masing-masing dengan penjelasan intinya. Baca pelan-pelan, satu topik sekali duduk.</p>
     ${topics}
   </section>
   ${keysListHTML(s)}
@@ -417,15 +439,15 @@ function renderPraktik(s) {
   const cards = s.keys.map((k) => {
     const p = splitKey(k);
     return `
-    <button type="button" class="flashcard" aria-label="Kartu hafalan: ${p.term}. Ketuk untuk membalik.">
+    <button type="button" class="flashcard" aria-pressed="false" aria-label="Kartu hafalan: ${p.term}${p.gloss ? ". Penjelasan: " + p.gloss : ""}. Ketuk untuk membalik.">
       <span class="flash-inner">
         <span class="flash-face flash-front">
           <span class="flash-term">${p.term}</span>
           <span class="flash-hint">ketuk untuk membalik</span>
         </span>
         <span class="flash-face flash-back">
-          <span class="flash-term">${p.term}</span>
-          <span>${p.gloss || "Kartu kunci dari mata kuliah ini."}</span>
+          ${p.gloss ? `<span class="flash-term">${p.term}</span>
+          <span>${p.gloss}</span>` : `<span>${p.term}</span>`}
         </span>
       </span>
     </button>`;
@@ -441,6 +463,7 @@ function renderPraktik(s) {
     <h2>Kartu Hafalan: Lima Kunci</h2>
     <p>Geser dan ketuk tiap kartu untuk membaliknya. Ucapkan dulu isinya dengan suara keras sebelum membalik, itu yang membuat kartu ini bekerja.</p>
     <div class="flash-strip">${cards}</div>
+    <p class="flash-note">${s.keys.length} kartu, geser untuk melihat semuanya</p>
   </section>
   <div class="big-idea">
     <h2>Ide Besarnya</h2>
@@ -461,7 +484,10 @@ function renderSubject(kode) {
   root.innerHTML = `<article class="subject">${RENDERERS[currentStyle](s)}</article>`;
   bindQuiz(root);
   $$(".flashcard", root).forEach((card) => {
-    card.addEventListener("click", () => card.classList.toggle("flipped"));
+    card.addEventListener("click", () => {
+      const flipped = card.classList.toggle("flipped");
+      card.setAttribute("aria-pressed", flipped ? "true" : "false");
+    });
   });
   const notes = $("#notesArea", root);
   if (notes) {
@@ -480,15 +506,21 @@ function renderSubject(kode) {
 }
 
 /* ---------- Router ---------- */
+let mapNoticePending = false;
 function route() {
   const m = (location.hash || "#/").match(/^#\/mapel\/([A-Za-z0-9]+)$/);
-  if (m && BY_KODE.has(m[1]) && currentStyle) {
+  const kode = m ? m[1].toUpperCase() : null;
+  if (m && !BY_KODE.has(kode)) mapNoticePending = true;
+  if (m && BY_KODE.has(kode) && currentStyle) {
     $("#viewMap").hidden = true;
     $("#viewSubject").hidden = false;
-    renderSubject(m[1]);
+    renderSubject(kode);
   } else {
     $("#viewSubject").hidden = true;
     $("#viewMap").hidden = false;
+    const notice = $("#mapNotice");
+    if (notice) notice.hidden = !mapNoticePending;
+    mapNoticePending = false;
   }
 }
 window.addEventListener("hashchange", route);
@@ -497,11 +529,14 @@ window.addEventListener("hashchange", route);
 const searchInput = $("#searchInput");
 function applySearch() {
   const q = searchInput.value.trim().toLowerCase();
+  const tokens = q.split(/\s+/).filter(Boolean);
+  const notice = $("#mapNotice");
+  if (notice) notice.hidden = true;
   let visibleCards = 0;
   $$(".semester").forEach((sec) => {
     let any = false;
     $$(".course-card", sec).forEach((card) => {
-      const hit = !q || card.dataset.search.includes(q);
+      const hit = !tokens.length || tokens.every((t) => card.dataset.search.includes(t));
       card.style.display = hit ? "" : "none";
       if (hit) { any = true; visibleCards++; }
     });
@@ -524,6 +559,10 @@ const themeToggle = $("#themeToggle");
 function setTheme(name) {
   document.documentElement.dataset.theme = name;
   try { localStorage.setItem("kelasut-theme", name); } catch (e) { /* abaikan */ }
+  $$('meta[name="theme-color"]').forEach((mt) => {
+    mt.removeAttribute("media");
+    mt.setAttribute("content", name === "dark" ? "#16120d" : "#faf5ec");
+  });
   $(".theme-toggle-label", themeToggle).textContent = name === "dark" ? "Terang" : "Gelap";
 }
 themeToggle.addEventListener("click", () => {
@@ -569,11 +608,17 @@ function observeReveals(root) {
 buildGate();
 renderMap();
 observeReveals(document);
-requestAnimationFrame(() => { $("#progressFill").style.width = "43.75%"; });
+requestAnimationFrame(() => {
+  const pct = 43.75;
+  $("#progressFill").style.width = pct + "%";
+  const track = $("#progressTrack");
+  if (track) track.setAttribute("aria-valuenow", String(Math.round(pct)));
+});
 
-const initialStyle = savedStyle() || deepLinkStyle();
+const deepLinked = deepLinkStyle();
+const initialStyle = deepLinked || savedStyle();
 if (initialStyle) {
-  setStyle(initialStyle, false);
+  setStyle(initialStyle, false, !deepLinked);
 } else {
   route();
   openGate(false);
