@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#faf5ec">
+<title>UAS Prep Pack Semester 4 - Kelas Manajemen UT</title>
+<meta name="description" content="Persiapan UAS untuk enam mata kuliah inti Semester 4 S1 Manajemen Universitas Terbuka: lembar ingat, 12 soal latihan tiap mata kuliah, dan tautan bank soal SoalUT.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css?v=212">
+<link rel="stylesheet" href="uas.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../" aria-label="Kelas Manajemen UT, kembali ke peta semester">
+    <span class="brand-mark" aria-hidden="true">K</span>
+    <span class="brand-name">Kelas Manajemen <em>UT</em></span>
+  </a>
+  <div class="topbar-actions">
+    <a class="uas-top-link" href="../">Peta Semester 1 sampai 8</a>
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti mode gelap atau terang">
+      <span class="theme-toggle-icon" aria-hidden="true">&#9681;</span>
+      <span class="theme-toggle-label">Gelap</span>
+    </button>
+  </div>
+</header>
+
+<main class="uas-wrap">
+  <section class="uas-hero">
+    <p class="hero-eyebrow">Universitas Terbuka &middot; S1 Manajemen &middot; Semester 4 (2026.2 Ganjil)</p>
+    <h1 class="hero-title">UAS Prep Pack<br>Semester <span class="hero-title-accent">4</span></h1>
+    <p class="hero-tagline">Enam mata kuliah inti, satu halaman tiap mata kuliah: lembar ingat yang padat, briefing audio yang sudah ada, dan 12 soal latihan dengan kunci yang menjelaskan alasannya. Jawab dulu, baru buka kuncinya.</p>
+    <div class="hero-stats" role="list" aria-label="Ringkasan paket UAS">
+      <div class="stat" role="listitem"><span class="stat-value">6 <span class="stat-of">mata kuliah</span></span><span class="stat-label">Semester 4, Tuton</span></div>
+      <div class="stat" role="listitem"><span class="stat-value">72 <span class="stat-of">soal latihan</span></span><span class="stat-label">12 tiap mata kuliah</span></div>
+      <div class="stat" role="listitem"><span class="stat-value">54 <span class="stat-of">topik</span></span><span class="stat-label">9 tiap mata kuliah</span></div>
+      <div class="stat" role="listitem"><span class="stat-value">6 <span class="stat-of">audio briefing</span></span><span class="stat-label">Dari Kelas Manajemen UT</span></div>
+    </div>
+    <p class="uas-order" id="orderNote"></p>
+    <div class="uas-progress" aria-label="Kemajuan checklist">
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="uasProgressTrack"><div class="progress-fill" id="uasProgressFill"></div></div>
+      <p class="progress-note" id="uasProgressNote">Belum ada topik yang dicentang.</p>
+    </div>
+  </section>
+
+  <nav class="uas-nav" aria-label="Daftar mata kuliah UAS" id="courseNav"></nav>
+
+  <section class="uas-how" aria-label="Cara memakai paket ini">
+    <h2>Cara memakai paket ini</h2>
+    <ol>
+      <li>Dengarkan briefing audio tiap mata kuliah sampai selesai, lalu baca lembar ingatnya.</li>
+      <li>Jawab 12 soal latihan dengan menulis langkahmu, terutama soal hitungan. Jawaban tanpa langkah bukan jawaban selesai.</li>
+      <li>Buka kunci dan alasan. Soal yang salah tetap mengajar, bila alasannya dibaca.</li>
+      <li>Centang topik yang sudah kamu kuasai. Progress tersimpan di peramban ini saja.</li>
+      <li>Bila butuh latihan tambahan, buka tautan SoalUT di tiap mata kuliah. Itu bank soal pola ujian, bukan bocoran soal.</li>
+    </ol>
+  </section>
+
+  <div id="courseSections"></div>
+
+  <section class="uas-sources" aria-label="Sumber dan batasan">
+    <h2>Sumber dan batasan, dibaca dulu</h2>
+    <ul>
+      <li>Topik tiap mata kuliah berasal dari Tinjauan Mata Kuliah resmi UT yang sudah dipakai Kelas Manajemen UT, ditambah sumber terbuka seperti OpenStax. Tidak ada teks BMP yang disalin.</li>
+      <li>Soal latihan di sini ditulis baru untuk paket ini, dengan kunci yang menjelaskan alasannya. Dua mata kuliah (Pemasaran dan Riset Operasi) memakai draf UAS yang sudah disiapkan 28 Oktober 2026.</li>
+      <li>SoalUT (<a href="https://soalut.com/soal-ut-manajemen/" target="_blank" rel="noopener">soalut.com</a>) dipakai sebagai bank pola soal dan tautan latihan tambahan per mata kuliah. SoalUT sendiri menyatakan soalnya disusun dari materi modul dan prediksi pola kisi-kisi, bukan soal resmi UT. Periksa sendiri kunci jawabannya: di halaman MSDM SoalUT ada dua kunci yang tampak keliru (soal 4 dan 25), jadi jangan menghafal kunci tanpa memahami alasannya.</li>
+      <li>Tidak ada klaim tentang tanggal atau format UAS. Soal latihan ini format-neutral: persiapan, bukan prediksi soal yang akan keluar. Ekonomi Manajerial (EKMA4312) dan Ekonomi Moneter (ESPA4227) tidak termasuk paket ini, sesuai rencana awal.</li>
+      <li>Audio rekap UAS baru (sekitar 5 menit per mata kuliah) belum dibuat. Rencana awal: audio dibuat setelah draf ingat tiap mata kuliah disetujui, agar tidak perlu direkam ulang.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="footer">
+  <p class="footer-title">Kelas Manajemen UT - UAS Prep Pack Semester 4</p>
+  <p>Ruang belajar pribadi untuk Tri Adi Setiawan, mahasiswa S1 Manajemen Universitas Terbuka. Ringkasan disusun ulang dengan bahasa sendiri dari Tinjauan Mata Kuliah resmi UT. Untuk membaca buku lengkapnya, buka Ruang Baca Virtual Perpustakaan UT.</p>
+  <p class="footer-meta">Kurikulum: Katalog FEB UT 2024/2025 &middot; Semester berjalan: 2026.2 Ganjil</p>
+  <p class="footer-credit">Made by Darren Labs &middot; Built by Darren Lieu (Tri Adi S.) &middot; <a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a></p>
+</footer>
+
+<script src="uas-data.js"></script>
+<script src="uas-app.js"></script>
+</body>
+</html>
