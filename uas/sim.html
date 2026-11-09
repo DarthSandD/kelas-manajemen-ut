@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#faf5ec">
+<title>Simulasi UAS - Kelas Manajemen UT</title>
+<meta name="description" content="Simulasi UAS berwaktu untuk S1 Manajemen Universitas Terbuka: pilih satu mata kuliah, satu semester, atau semua semester, jawab dengan timer, lalu lihat skor dan pembahasan tiap soal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css?v=213">
+<link rel="stylesheet" href="uas.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../" aria-label="Kelas Manajemen UT, kembali ke peta semester">
+    <span class="brand-mark" aria-hidden="true">K</span>
+    <span class="brand-name">Kelas Manajemen <em>UT</em></span>
+  </a>
+  <div class="topbar-actions">
+    <a class="uas-top-link" href="uas.html">UAS Prep Pack</a>
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti mode gelap atau terang">
+      <span class="theme-toggle-icon" aria-hidden="true">&#9681;</span>
+      <span class="theme-toggle-label">Gelap</span>
+    </button>
+  </div>
+</header>
+
+<main class="uas-wrap">
+  <section class="uas-hero">
+    <p class="hero-eyebrow">Universitas Terbuka &middot; S1 Manajemen &middot; Latihan berwaktu</p>
+    <h1 class="hero-title">Simulasi <span class="hero-title-accent">UAS</span></h1>
+    <p class="hero-tagline">Ujian latihan dari 612 soal pilihan ganda paket UAS. Pilih cakupannya, atur jumlah soal dan waktunya, lalu jawab seperti ujian sungguhan: timer jalan, dan waktu habis berarti jawaban dikumpulkan. Ini latihan, bukan soal resmi UT.</p>
+  </section>
+
+  <section class="sim-card" id="simSetup" aria-label="Atur simulasi">
+    <h2>Atur simulasimu</h2>
+    <div class="sim-field">
+      <span class="sim-label">Cakupan</span>
+      <div class="sim-scope" role="group" aria-label="Cakupan simulasi">
+        <label><input type="radio" name="scope" value="course" checked> Satu mata kuliah</label>
+        <label><input type="radio" name="scope" value="semester"> Satu semester</label>
+        <label><input type="radio" name="scope" value="all"> Semua semester</label>
+      </div>
+    </div>
+    <div class="sim-field" id="fieldCourse">
+      <label class="sim-label" for="simCourse">Mata kuliah</label>
+      <select id="simCourse" class="sim-select"></select>
+    </div>
+    <div class="sim-field" id="fieldSemester" hidden>
+      <label class="sim-label" for="simSemester">Semester</label>
+      <select id="simSemester" class="sim-select"></select>
+    </div>
+    <div class="sim-field-row">
+      <div class="sim-field">
+        <label class="sim-label" for="simCount">Jumlah soal</label>
+        <select id="simCount" class="sim-select">
+          <option value="10">10 soal</option>
+          <option value="20" selected>20 soal</option>
+          <option value="30">30 soal</option>
+        </select>
+      </div>
+      <div class="sim-field">
+        <label class="sim-label" for="simMinutes">Waktu</label>
+        <select id="simMinutes" class="sim-select">
+          <option value="30">30 menit</option>
+          <option value="60" selected>60 menit</option>
+          <option value="90">90 menit</option>
+        </select>
+      </div>
+    </div>
+    <p class="sim-note" id="simPoolNote"></p>
+    <p class="sim-note" id="simBestNote"></p>
+    <button type="button" class="uas-reveal sim-start" id="simStart">Mulai simulasi</button>
+  </section>
+
+  <section class="sim-card" id="simExam" hidden aria-label="Simulasi berjalan">
+    <div class="sim-exam-head">
+      <div>
+        <p class="sim-exam-scope" id="simExamScope"></p>
+        <p class="sim-exam-progress" id="simExamProgress"></p>
+      </div>
+      <p class="sim-timer" id="simTimer" role="timer" aria-live="off">60:00</p>
+    </div>
+    <div class="sim-palette" id="simPalette" aria-label="Daftar soal"></div>
+    <article class="uas-q sim-q">
+      <p class="uas-q-tag" id="simQTag"></p>
+      <p class="uas-q-text" id="simQText"></p>
+      <div class="uas-opts" id="simQOpts" role="group" aria-label="Pilihan jawaban"></div>
+    </article>
+    <div class="sim-nav">
+      <button type="button" class="uas-reveal" id="simPrev">&larr; Sebelumnya</button>
+      <button type="button" class="uas-reveal" id="simNext">Berikutnya &rarr;</button>
+      <button type="button" class="uas-reveal sim-submit" id="simSubmit">Selesaikan simulasi</button>
+    </div>
+  </section>
+
+  <section class="sim-card" id="simResult" hidden aria-label="Hasil simulasi">
+    <h2>Hasil simulasi</h2>
+    <p class="sim-scope-line" id="simResultScope"></p>
+    <p class="sim-score"><span id="simScoreValue"></span><span class="sim-score-total" id="simScoreTotal"></span></p>
+    <p class="sim-score-note" id="simScoreNote"></p>
+    <div class="sim-actions">
+      <button type="button" class="uas-reveal" id="simRetry">Ulangi dengan soal baru</button>
+      <a class="uas-link" href="uas.html">Kembali ke UAS Prep Pack</a>
+    </div>
+    <h3>Pembahasan tiap soal</h3>
+    <div id="simReview"></div>
+  </section>
+</main>
+
+<footer class="footer">
+  <p class="footer-title">Kelas Manajemen UT - Simulasi UAS</p>
+  <p>Ruang belajar pribadi untuk Tri Adi Setiawan, mahasiswa S1 Manajemen Universitas Terbuka. Soal simulasi ditulis baru dari Tinjauan Mata Kuliah resmi UT. Untuk membaca buku lengkapnya, buka Ruang Baca Virtual Perpustakaan UT.</p>
+  <p class="footer-meta">Kurikulum: Katalog FEB UT 2024/2025 &middot; Semester berjalan: 2026.2 Ganjil</p>
+  <p class="footer-credit">Made by Darren Labs &middot; Built by Darren Lieu (Tri Adi S.) &middot; <a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a></p>
+</footer>
+
+<script src="uas-mcq.js"></script>
+<script src="sim-app.js"></script>
+</body>
+</html>

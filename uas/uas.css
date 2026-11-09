@@ -196,3 +196,183 @@
 @media (max-width: 560px) {
   .uas-top-link { display: none; }
 }
+
+/* ---------- Semester tabs ---------- */
+.uas-sem-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 24px 0 8px;
+}
+@media (max-width: 700px) {
+  .uas-sem-tabs { grid-template-columns: repeat(2, 1fr); }
+}
+.uas-sem-tab {
+  padding: 12px 14px;
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.uas-sem-tab:hover { border-color: var(--line-strong); }
+.uas-sem-tab.is-active {
+  border-color: var(--accent);
+  background: var(--accent-tint);
+}
+.uas-sem-num { display: block; font-weight: 700; font-size: 15px; }
+.uas-sem-count {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-top: 2px;
+}
+.uas-sem-courses { display: block; font-size: 13px; color: var(--ink-soft); }
+.uas-sem-heading {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 4vw, 30px);
+  margin: 20px 0 4px;
+}
+
+/* ---------- Simulasi promo di hero ---------- */
+.uas-sim-promo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 20px;
+  padding: 16px 20px;
+  background: var(--accent-tint);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+}
+.uas-sim-promo-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin: 0 0 4px; }
+.uas-sim-promo-text { margin: 0; color: var(--ink-soft); font-size: 15px; }
+.uas-sim-promo .uas-link { flex: none; }
+.uas-link-sim { border-color: var(--accent); color: var(--accent); }
+@media (max-width: 560px) {
+  .uas-sim-promo { flex-direction: column; align-items: flex-start; }
+}
+
+/* ---------- Topik lembar ingat ---------- */
+.uas-topic-t { font-weight: 600; }
+.uas-topic-d { display: block; color: var(--ink-soft); font-size: 14px; margin-top: 2px; }
+.uas-analogi { color: var(--ink-soft); font-style: italic; margin: 0 0 14px; }
+
+/* ---------- Soal pilihan ganda ---------- */
+.uas-opts { display: grid; gap: 8px; margin: 4px 0 10px; }
+.uas-opt {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  text-align: left;
+  padding: 10px 14px;
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+.uas-opt:hover:not(:disabled) { border-color: var(--accent); }
+.uas-opt:disabled { cursor: default; opacity: 0.85; }
+.uas-opt-letter {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: var(--paper-sunk);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+}
+.uas-opt.is-correct { border-color: #2e7d32; background: #e8f5e9; }
+.uas-opt.is-correct .uas-opt-letter { background: #2e7d32; color: #fff; }
+.uas-opt.is-wrong { border-color: #c62828; background: #fdecea; }
+.uas-opt.is-wrong .uas-opt-letter { background: #c62828; color: #fff; }
+.uas-opt.is-picked { border-color: var(--accent); background: var(--accent-tint); }
+.uas-mcq-verdict { margin: 0 0 6px; }
+
+/* ---------- Simulasi ---------- */
+.sim-card {
+  margin: 24px 0;
+  padding: clamp(18px, 4vw, 28px);
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.sim-card h2 { font-family: var(--font-display); font-size: 24px; margin: 0 0 14px; }
+.sim-card h3 { font-family: var(--font-display); font-size: 21px; margin: 24px 0 8px; }
+.sim-field { margin: 0 0 16px; }
+.sim-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 560px) { .sim-field-row { grid-template-columns: 1fr; } }
+.sim-label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+.sim-scope { display: flex; flex-wrap: wrap; gap: 14px; }
+.sim-scope label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+.sim-scope input { accent-color: var(--accent); }
+.sim-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 15px;
+}
+.sim-note { color: var(--ink-soft); font-size: 14px; margin: 4px 0; }
+.sim-start { margin-top: 8px; }
+.sim-exam-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.sim-exam-scope { font-weight: 700; margin: 0 0 2px; }
+.sim-exam-progress { color: var(--ink-soft); font-size: 14px; margin: 0; }
+.sim-timer {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0;
+  padding: 6px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--paper);
+  white-space: nowrap;
+}
+.sim-timer.is-low { border-color: #c62828; color: #c62828; }
+.sim-palette { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.sim-pal {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  cursor: pointer;
+}
+.sim-pal.is-answered { background: var(--accent-tint); border-color: var(--accent); }
+.sim-pal.is-current { border-color: var(--ink); font-weight: 700; }
+.sim-q { border-top: none; padding-top: 0; }
+.sim-nav { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.sim-submit { border-color: var(--accent); color: var(--accent); }
+.sim-score { font-family: var(--font-display); font-size: 56px; font-weight: 700; margin: 8px 0 4px; }
+.sim-score-total { font-size: 28px; color: var(--ink-faint); }
+.sim-score-note { color: var(--ink-soft); margin: 0 0 12px; }
+.sim-scope-line { color: var(--ink-soft); margin: 0; }
+.sim-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+@media print {
+  .uas-sem-tabs, .uas-sim-promo, .uas-opts, .sim-card { display: none !important; }
+}
